@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Gregwar\CaptchaBundle\Generator;
 
+use GdImage;
 use Gregwar\Captcha\CaptchaBuilder;
 use Gregwar\Captcha\PhraseBuilder;
+use RuntimeException;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
@@ -16,30 +18,27 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class CaptchaGenerator
 {
-    /** @var RouterInterface */
-    protected $router;
+    protected RouterInterface $router;
 
-    /** @var CaptchaBuilder */
-    protected $builder;
+    protected CaptchaBuilder $builder;
 
-    /** @var PhraseBuilder */
-    protected $phraseBuilder;
+    protected PhraseBuilder $phraseBuilder;
 
-    /** @var ImageFileHandler */
-    protected $imageFileHandler;
+    protected ImageFileHandler $imageFileHandler;
 
     /**
-     * @param RouterInterface         $router
-     * @param CaptchaBuilder          $builder
-     * @param PhraseBuilder           $phraseBuilder
-     * @param ImageFileHandler        $imageFileHandler
+     * @param RouterInterface $router
+     * @param CaptchaBuilder $builder
+     * @param PhraseBuilder $phraseBuilder
+     * @param ImageFileHandler $imageFileHandler
      */
     public function __construct(
-        RouterInterface $router,
-        CaptchaBuilder $builder,
-        PhraseBuilder $phraseBuilder,
+        RouterInterface  $router,
+        CaptchaBuilder   $builder,
+        PhraseBuilder    $phraseBuilder,
         ImageFileHandler $imageFileHandler
-    ) {
+    )
+    {
         $this->router = $router;
         $this->builder = $builder;
         $this->phraseBuilder = $phraseBuilder;
@@ -48,8 +47,6 @@ class CaptchaGenerator
 
     /**
      * @param array<mixed> $options
-     *
-     * @return string
      */
     public function getCaptchaCode(array &$options): string
     {
@@ -80,8 +77,6 @@ class CaptchaGenerator
 
     /**
      * @param array<mixed> $options
-     *
-     * @return string
      */
     public function generate(array &$options): string
     {
@@ -92,7 +87,7 @@ class CaptchaGenerator
 
         if (isset($options['text_color']) && $options['text_color']) {
             if (3 !== count($options['text_color'])) {
-                throw new \RuntimeException('text_color should be an array of r, g and b');
+                throw new RuntimeException('text_color should be an array of r, g and b');
             }
 
             $color = $options['text_color'];
@@ -101,7 +96,7 @@ class CaptchaGenerator
 
         if (isset($options['background_color']) && $options['background_color']) {
             if (3 !== count($options['background_color'])) {
-                throw new \RuntimeException('background_color should be an array of r, g and b');
+                throw new RuntimeException('background_color should be an array of r, g and b');
             }
 
             $color = $options['background_color'];
@@ -110,11 +105,12 @@ class CaptchaGenerator
 
         $this->builder->setInterpolation($options['interpolation']);
 
-        $fingerprint = isset($options['fingerprint']) ? $options['fingerprint'] : null;
+        $fingerprint = $options['fingerprint'] ?? null;
 
         $this->builder->setBackgroundImages($options['background_images']);
         $this->builder->setIgnoreAllEffects($options['ignore_all_effects']);
 
+        /** @var GdImage $content */
         $content = $this->builder->build(
             $options['width'],
             $options['height'],
@@ -140,8 +136,6 @@ class CaptchaGenerator
 
     /**
      * @param array<mixed> $options
-     *
-     * @return string
      */
     public function getPhrase(array &$options): string
     {

@@ -11,12 +11,13 @@ It uses [gregwar/captcha](https://github.com/Gregwar/Captcha) as captcha generat
 Compatibility with Symfony
 ==========================
 
-| CaptchaBundle   | Symfony   | PHP      |
-|:---------------:|:---------:|:--------:|
-| 2.2.*           | 5.* - 6.* | >= 7.1   |
-| 2.1.*           | 4.* - 5.* | >= 7.1   |
-| 2.0.*           | 2.8 - 3.* | >= 5.3.9 |
-| 1.*             | 2.1 - 2.7 | >= 5.3.0 |
+| CaptchaBundle |  Symfony  |   PHP    |
+|:-------------:|:---------:|:--------:|
+|     2.3.*     | 6.* - 7.* | >= 8.0.2 |
+|     2.2.*     | 5.* - 6.* |  >= 7.1  |
+|     2.1.*     | 4.* - 5.* |  >= 7.1  |
+|     2.0.*     | 2.8 - 3.* | >= 5.3.9 |
+|      1.*      | 2.1 - 2.7 | >= 5.3.0 |
 
 
 Installation
@@ -24,7 +25,7 @@ Installation
 
 ### Step 1: Download the GregwarCaptchaBundle
 
-Use composer require to download and install the package. 
+Use composer require to download and install the package.
 At the end of the installation, the bundle is automatically registered thanks to the Symfony recipe.
 
 ``` bash
@@ -97,7 +98,7 @@ You can define the following configuration options globally or on the CaptchaTyp
 * **humanity**: number of extra forms that the user can submit after a correct validation, if set to a value different of 0, only 1 over (1+humanity) forms will contain a CAPTCHA (default=0, i.e each form will contain the CAPTCHA)
 * **distortion**: enable or disable the distortion on the image (default=true, enabled)
 * **max_front_lines**, **max_behind_lines**: the maximum number of lines to draw on top/behind the image. `0` will draw no lines; `null` will use the default algorithm (the
-number of lines depends on the size of the image). (default=null)
+  number of lines depends on the size of the image). (default=null)
 * **background_color**: sets the background color, if you want to force it, this should be an array of r,g &b, for instance [255, 255, 255] will force the background to be white
 * **background_images**: Sets custom user defined images as the captcha background (1 image is selected randomly). It is recommended to turn off all the effects on the image (ignore_all_effects). The full paths to the images must be passed.
 * **interpolation**: enable or disable the interpolation on the captcha
@@ -171,8 +172,15 @@ Image creation
 If you choose to use image files instead of embedding the widget will execute a garbage collection
 randomly and delete images that exceed the configured lifetime.
 
+Use internal Quality-Tools
+==============
+
+```
+vendor/bin/phpstan analyse
+vendor/bin/ecs check .
+```
+
 License
 =======
 This bundle is under the MIT license. See the complete license in the bundle:
-    LICENSE
-
+LICENSE
